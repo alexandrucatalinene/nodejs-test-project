@@ -1,0 +1,9 @@
+{
+  "mongos" : {
+    "username": "user",
+    "password" : "password",
+    "host" : "host",
+    "port" : 12345
+  },
+  "mysql" : {}
+}

@@ -17,6 +17,7 @@ var config = function()
 
     config_obj['template'] = require(path.join(environment_path, 'template.json'));
     config_obj['api'] = require(path.join(environment_path, 'apis.json'));
+    config_obj['database']  = require(path.join(environment_path, 'database.json'));
 
     return config_obj;
 }();
