@@ -1,0 +1,8 @@
+{
+ "endpoints" :
+ [{
+    "internal_path" : "./v1",
+    "web_access_point": "/v1",
+    "enabled" : true
+  }]
+}

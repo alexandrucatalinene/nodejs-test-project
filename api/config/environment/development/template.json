@@ -1,0 +1,5 @@
+{
+  "folder" : "front/views",
+  "extension": ".html",
+  "public_folders" : ["front"]
+}
