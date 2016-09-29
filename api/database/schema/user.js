@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const crypto = require('crypto');
 
 var userSchema = mongoose.Schema({
     username: {
@@ -26,8 +27,9 @@ var userSchema = mongoose.Schema({
         'default': null
     },
     salt: {
-        type: mongoose.Schema.Types.ObjectId,
-        'default': new mongoose.Types.ObjectId()
+        type: String,
+        required: true,
+        'default': function() { return crypto.randomBytes(12).toString('base64'); }
     },
     modified : {
         type: mongoose.Schema.Types.ObjectId,

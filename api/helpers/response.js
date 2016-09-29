@@ -1,9 +1,14 @@
-var send = function (err, data, status, req, res, next) {
-    res.status(status || 200)
-        .send({
-            err : err,
-            data: data || {}
-        });
+var send = function (err, data, options, res, next) {
+    if(err)
+    {
+        next(err);
+    } else {
+        res.status(options.status || 200)
+            .send({
+                err : err,
+                data: data || {}
+            });
+    }
 };
 
 

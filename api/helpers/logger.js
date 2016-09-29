@@ -7,16 +7,16 @@ var winston = require('winston');
 module.exports = {
 
     error : function(error) {
-        winston.error('ERROR: ', error);
+        winston.error(error);
     },
 
     warn: function(warning) {
-        winston.warn('WARNING: ', warning);
+        winston.warn(warning);
     },
 
     info: function(info)
     {
-        winston.info('INFO: ', info);
+        winston.info(info);
     }
 
 };

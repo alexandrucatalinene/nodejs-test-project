@@ -14,12 +14,14 @@ if(config.hasOwnProperty('api') && config.api != null && config.api.endpoints.le
         if(!api.enabled)
             continue;
 
-        try{
+        try {
             var exec = require(path.join(__dirname, api.internal_path));
             router.use(api.web_access_point, exec);
         } catch(err){
             if(err.code === 'MODULE_NOT_FOUND') {
-                logger.error('API : ' + api.web_access_point + ' could not be loaded!');
+                logger.error({ message : 'API : ' + api.web_access_point + ' could not be loaded!', error : err});
+            } else {
+                logger.error(err);
             }
         }
 

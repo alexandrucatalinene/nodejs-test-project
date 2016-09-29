@@ -3,13 +3,26 @@ const mongoose = require('mongoose');
 const config = require('../config');
 
 
-var dbURI = 'mongodb://' + config.database.mongos.username + ':' + config.database.mongos.password + '@' + config.database.mongos.host + ':' + config.database.mongos.port + '/' + config.database.mongos.database_name;
+var mongos_connectionstring = 'mongodb://' + config.database.mongos.host + ':' + config.database.mongos.port + '/' + config.database.mongos.database_name;
 
-mongoose.connect(dbURI);
+var options = {
+    db: { native_parser: true },
+    server: {
+        poolSize: 5,
+        ssl : true,
+        socketOptions : {
+            keepAlive : 120
+        }
+    },
+    user: config.database.mongos.username,
+    pass: config.database.mongos.password
+};
+
+mongoose.connect(mongos_connectionstring, options);
 
 
 mongoose.connection.on('connected', function () {
-    logger.info('Mongoose default connection open to: ' + dbURI);
+    logger.info('Mongoose default connection open to: ' + mongos_connectionstring);
 });
 // If the connection throws an error 
 mongoose.connection.on('error', function (err) {
@@ -24,12 +37,7 @@ mongoose.connection.on('disconnected', function () {
 //close the mongodb conn
 process.on('SIGINT', function () {
     mongoose.connection.close(function () {
-        logger.error('info', 'Mongoose default connection disconnected through app termination');
+        logger.error('Closing mongodb connection on close signal received!');
         process.exit(0);
     });
-});
-
-
-process.on('uncaughtException', function (err) {
-    logger.error({ message : 'Error initialazing endpoints', error_stack : err});
 });

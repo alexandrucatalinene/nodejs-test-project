@@ -1,11 +1,13 @@
 const express = require('express');
 const compress = require('compression');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
 const path = require('path');
-const config = require('./config');
-const routes = require('./routes');
 const cookieParser = require('cookie-parser');
+const config = require('./config');
+const db = require('./database');
+const routes = require('./routes');
+const logger = require('./helpers/logger');
 
 var app = express();
 
@@ -17,9 +19,9 @@ app.use(compress({
 }));
 
 if (config.is_development) {
-    app.use(logger('dev'));
+    app.use(morgan('dev'));
 } else {
-    app.use(logger('short'));
+    app.use(morgan('short'));
 }
 
 
@@ -72,5 +74,9 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500).send(error);
 });
 
+
+process.on('uncaughtException', function (err) {
+    logger.error({ message : 'General error', error_stack : err});
+});
 
 module.exports = app;
